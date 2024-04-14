@@ -9,7 +9,7 @@ client = discord.Client(intents=intents)
 
 
 @client.event
-async def on_ready():
+async def on_ready() -> None:
     print(f"We have logged in as {client.user}")
 
 
