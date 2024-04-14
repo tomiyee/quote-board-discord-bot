@@ -20,3 +20,8 @@ pre-commit install
 ```
 
 Get the Discord Token and put it in a `.env` file with `DISCORD_TOKEN`
+
+To run the Python style and type-checker:
+```bash
+python style.py
+```
