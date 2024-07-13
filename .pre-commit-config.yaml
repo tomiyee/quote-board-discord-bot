@@ -8,5 +8,5 @@ repos:
         name: Style Checker
         verbose: true
         require_serial: true
-        language: python
-        entry: python style.py
+        language: system
+        entry: bash -c 'poetry run style'
