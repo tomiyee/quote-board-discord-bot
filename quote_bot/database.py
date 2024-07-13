@@ -14,17 +14,21 @@ else:
     print("Using Local DB")
 
 if USE_PRODUCTION_DB:
-    POSTGRES_URL = os.getenv("POSTGRES_URL")
-    POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
-    POSTGRES_USERNAME = os.getenv("POSTGRES_USERNAME")
-    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    config = {
+        "user": os.getenv("POSTGRES_USERNAME"),
+        "pwd": os.getenv("POSTGRES_PASSWORD"),
+        "url": os.getenv("POSTGRES_URL"),
+        "db_name": os.getenv("POSTGRES_DATABASE"),
+    }
 else:
-    POSTGRES_URL = os.getenv("DEV_POSTGRES_URL")
-    POSTGRES_DATABASE = os.getenv("DEV_POSTGRES_DATABASE")
-    POSTGRES_USERNAME = os.getenv("DEV_POSTGRES_USERNAME")
-    POSTGRES_PASSWORD = os.getenv("DEV_POSTGRES_PASSWORD")
+    config = {
+        "user": os.getenv("DEV_POSTGRES_USERNAME"),
+        "pwd": os.getenv("DEV_POSTGRES_PASSWORD"),
+        "url": os.getenv("DEV_POSTGRES_URL"),
+        "db_name": os.getenv("DEV_POSTGRES_DATABASE"),
+    }
 
 engine = create_engine(
-    f"postgresql://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_URL}:5432/{POSTGRES_DATABASE}"
+    "postgresql://{user}:{pwd}@{url}:5432/{db_name}".format(**config)
 )
 engine.connect()
