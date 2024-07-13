@@ -66,6 +66,10 @@ A quick tour of the source code:
     └── ...
 ```
 
+```
+docker run --name quote-bot-postgres -e POSTGRES_PASSWORD=postgres -d postgres POSTGRES_DATABASE=quote_board
+```
+
 ### Starting the Discord Bot
 
 I made a script to simplify starting the robot.
