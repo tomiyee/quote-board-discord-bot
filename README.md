@@ -35,6 +35,10 @@ Poetry is a powerful tool for dependency management and packaging in Python. It 
 
 Follow the instructions [here](https://python-poetry.org/docs#installing-with-the-official-installer).
 
+After running the installation, you'll need to add it to your path. The specific location depends on the OS and your shell config file.
+- I use `OhMyZsh` on Ubuntu, so I add this line to the bottom of the `~/.zshrc` file: `export PATH="/home/<username>/.local/bin:$PATH"`.
+- If you use `bash`, the relevant file is `~/.bashrc`.
+
 ### Install Package Dependencies
 
 I'm running with Python 3.10. You can use PyEnv to set the Python version:
