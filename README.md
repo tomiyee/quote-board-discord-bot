@@ -5,11 +5,29 @@ https://discordpy.readthedocs.io/en/stable/quickstart.html
 
 ## Setup Instructions
 
-### (Optional) PyEnv
+To setup the dev environment, these are the high level steps:
+1. (Optional) Install PyEnv
+2. Install Pre-Commits
+3. Install Poetry
+4. Install Package Dependencies
+
+Keep reading for a short explanation for what each tool is and how to install it.
+
+### (Optional) Install PyEnv
 
 PyEnv is a simple, highly-recommended tool for managing different versions of Python on the same device. If something is Python version specific, we'll find out the hard way.
 
 To install PyEnv, follow the instructions [here](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
+
+### Install Pre-Commits
+
+Pre-commit is a framework for running code before every GitHub commit. I'm using it to run the style script to ensure that any new Python code follows style conventions.
+
+To install pre-commit, (based on the instructions [here](https://pre-commit.com/#install)), run:
+```bash
+pip install pre-commit
+pre-commit install
+```
 
 ### Install Poetry
 
@@ -17,7 +35,7 @@ Poetry is a powerful tool for dependency management and packaging in Python. It 
 
 Follow the instructions [here](https://python-poetry.org/docs#installing-with-the-official-installer).
 
-### Install Dependencies
+### Install Package Dependencies
 
 I'm running with Python 3.10. You can use PyEnv to set the Python version:
 
