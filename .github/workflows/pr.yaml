@@ -1,7 +1,9 @@
 name: "Lint PR"
 
 on:
-  pull_request_target:
+  push:
+    branches: [main]
+  pull_request:
     types:
       - opened
       - reopened
