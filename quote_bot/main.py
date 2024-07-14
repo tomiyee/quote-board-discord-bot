@@ -1,11 +1,12 @@
 # This example requires the 'message_content' intent.
-from enum import Enum
 import os
+from enum import Enum
 from typing import Any
-from dotenv import load_dotenv
+
 import discord
 from discord import Interaction
 from discord.ext import commands
+from dotenv import load_dotenv
 
 load_dotenv()
 
