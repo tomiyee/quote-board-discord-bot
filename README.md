@@ -39,6 +39,20 @@ After running the installation, you'll need to add it to your path. The specific
 - I use `OhMyZsh` on Ubuntu, so I add this line to the bottom of the `~/.zshrc` file: `export PATH="/home/<username>/.local/bin:$PATH"`.
 - If you use `bash`, the relevant file is `~/.bashrc`.
 
+### Install Docker
+
+We use docker to run the database and other parts of the stack locally.
+
+This command will start postgres locally (add the flag `-d` to run in detached mode)
+```bash
+docker compose up
+```
+
+This command will stop the postgres locally:
+```bash
+docker compose down
+```
+
 ### Install Package Dependencies
 
 I'm running with Python 3.10. You can use PyEnv to set the Python version:
@@ -66,16 +80,22 @@ A quick tour of the source code:
     └── ...
 ```
 
+### Starting the Local Postgres Docker Container
 ```
-docker run --name quote-bot-postgres -e POSTGRES_PASSWORD=postgres -d postgres POSTGRES_DATABASE=quote_board
+docker run --name quote-bot-postgres --env-file .env -p 5432:5432 -d postgres
 ```
 
 ### Starting the Discord Bot
 
-I made a script to simplify starting the robot.
+I made a script to simplify starting the bot.
 
 ```bash
 poetry run start
+```
+
+If you want to run the Discord bot and connect to the production database, add the flag `USE_PROD_DB=true` to the beginning:
+```bash
+USE_PROD_DB=true poetry run start
 ```
 
 ### Adding a New Dependency

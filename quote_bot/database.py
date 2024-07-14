@@ -14,17 +14,17 @@ else:
 
 if USE_PRODUCTION_DB:
     config = {
-        "user": os.getenv("POSTGRES_USERNAME"),
-        "pwd": os.getenv("POSTGRES_PASSWORD"),
-        "url": os.getenv("POSTGRES_URL"),
-        "db_name": os.getenv("POSTGRES_DATABASE"),
+        "url": os.getenv("PROD_POSTGRES_URL"),
+        "db_name": os.getenv("PROD_POSTGRES_DB"),
+        "user": os.getenv("PROD_POSTGRES_USER"),
+        "pwd": os.getenv("PROD_POSTGRES_PASSWORD"),
     }
 else:
     config = {
-        "user": os.getenv("DEV_POSTGRES_USERNAME"),
-        "pwd": os.getenv("DEV_POSTGRES_PASSWORD"),
-        "url": os.getenv("DEV_POSTGRES_URL"),
-        "db_name": os.getenv("DEV_POSTGRES_DATABASE"),
+        "url": os.getenv("POSTGRES_URL"),
+        "db_name": os.getenv("POSTGRES_DB"),
+        "user": os.getenv("POSTGRES_USER"),
+        "pwd": os.getenv("POSTGRES_PASSWORD"),
     }
 
 engine = create_engine(
