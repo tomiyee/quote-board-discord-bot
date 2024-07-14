@@ -102,6 +102,10 @@ For example, let's say there is a function in the file `scripts/style.py` called
 style = "scripts.style:main"
 ```
 
+### Poetry Scripts
+
+Run `poetry run style` to auto-fix any style issues. Adding `--check` will throw an error if a style issue exists but not fix it.
+
 ## Hardware:
 
 Developed on Ubuntu (WSL-2 specifically) and Mac.
