@@ -6,67 +6,17 @@ https://discordpy.readthedocs.io/en/stable/quickstart.html
 ## Setup Instructions
 
 To setup the dev environment, these are the high level steps:
-1. (Optional) Install PyEnv
-2. Install Pre-Commits
-3. Install Poetry
-4. Install Package Dependencies
-
-Keep reading for a short explanation for what each tool is and how to install it.
-
-### (Optional) Install PyEnv
-
-PyEnv is a simple, highly-recommended tool for managing different versions of Python on the same device. If something is Python version specific, we'll find out the hard way.
-
-To install PyEnv, follow the instructions [here](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
-
-### Install Pre-Commits
-
-Pre-commit is a framework for running code before every GitHub commit. I'm using it to run the style script to ensure that any new Python code follows style conventions.
-
-To install pre-commit, (based on the instructions [here](https://pre-commit.com/#install)), run:
-```bash
-pip install pre-commit
-pre-commit install
-```
-
-### Install Poetry
-
-Poetry is a powerful tool for dependency management and packaging in Python. It allows for defining dependencies powerfully and manages virtual environments in the background for you when working on different projects.
-
-Follow the instructions [here](https://python-poetry.org/docs#installing-with-the-official-installer).
-
-After running the installation, you'll need to add it to your path. The specific location depends on the OS and your shell config file.
-- I use `OhMyZsh` on Ubuntu, so I add this line to the bottom of the `~/.zshrc` file: `export PATH="/home/<username>/.local/bin:$PATH"`.
-- If you use `bash`, the relevant file is `~/.bashrc`.
-
-### Install Docker
-
-We use docker to run the database and other parts of the stack locally.
-
-This command will start postgres locally (add the flag `-d` to run in detached mode)
-```bash
-docker compose up
-```
-
-This command will stop the postgres locally:
-```bash
-docker compose down
-```
-
-### Install Package Dependencies
-
-I'm running with Python 3.10. You can use PyEnv to set the Python version:
-
-```bash
-pyenv install 3.10
-pyenv global 3.10
-```
-
-In the parent directory, you can install all the dependencies with:
-
-```bash
-poetry install
-```
+1. (Optional) Install PyEnv [here](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation)
+2. Install Pre-Commits (based on the instructions [here](https://pre-commit.com/#install))
+    ```bash
+    pip install pre-commit
+    pre-commit install
+    ```
+3. Install Poetry (a powerful tool for dependency management) [here](https://python-poetry.org/docs#installing-with-the-official-installer)
+    - After running the installation, you'll need to add it to your path. The specific location depends on the OS and your shell config file.
+4. Install Package Dependencies:
+    - `poetry install`
+5. Install Docker
 
 ## Development
 
@@ -81,9 +31,17 @@ A quick tour of the source code:
 ```
 
 ### Starting the Local Postgres Docker Container
+
+This command will start postgres locally (add the flag `-d` to run in detached mode)
+```bash
+docker compose up
 ```
-docker run --name quote-bot-postgres --env-file .env -p 5432:5432 -d postgres
+
+This command will stop the postgres locally:
+```bash
+docker compose down
 ```
+
 
 ### Starting the Discord Bot
 
