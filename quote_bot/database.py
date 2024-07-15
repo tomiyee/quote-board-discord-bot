@@ -1,9 +1,13 @@
 import os
 
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 from sqlalchemy import create_engine
 
-load_dotenv()
+from quote_bot.models.create_tables import sync_create_tables
+
+env_path = find_dotenv()
+load_dotenv(env_path, override=True)
+
 
 # Decide between using the Production or Development Database
 USE_PRODUCTION_DB = os.getenv("USE_PROD_DB") == "true"
@@ -26,8 +30,8 @@ else:
         "user": os.getenv("POSTGRES_USER"),
         "pwd": os.getenv("POSTGRES_PASSWORD"),
     }
+database_url = "postgresql://{user}:{pwd}@{url}:5432/{db_name}".format(**config)
+engine = create_engine(database_url)
 
-engine = create_engine(
-    "postgresql://{user}:{pwd}@{url}:5432/{db_name}".format(**config)
-)
-engine.connect()
+
+sync_create_tables(engine)
