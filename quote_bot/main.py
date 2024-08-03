@@ -1,13 +1,14 @@
 # This example requires the 'message_content' intent.
 import os
-from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import discord
 from discord import Interaction
 from discord.ext import commands
 from dotenv import load_dotenv
+
+from quote_bot.parser import Parser
 
 load_dotenv()
 
@@ -84,32 +85,17 @@ async def guess(ctx: commands.Context[Any]) -> None:
 
 @client.command()
 async def parse(ctx: commands.Context[Any]) -> None:
-    """Parses the messages in the channel (and eventually save to a DB)"""
+    """Parses the messages in the channel (and eventually save to a DB)
+
+    Adds a reaction to indicate if parsing is successful.
+    """
     await ctx.message.delete()
     async for message in ctx.channel.history(limit=200):
-        parsed_message = parse_message(message.content)
+        parsed_message = Parser.parse(message.content)
         # Use Reactions to indicate successfully parsing the quote
-        await message.add_reaction("\uF44E" if parsed_message is None else "\uF44D")
-        print(parse_message(message.content))
-        print("Message ID", message.id)
-        print("Channel ID", message.channel.id)
-
-
-@dataclass
-class ParsedMessage:
-    """The results of parsing the content of a quote-board message"""
-
-    quote: str
-    """The content of the quote"""
-    speaker: str
-    """The name of the one who spoke the quote"""
-    context: str | None
-    """(optional) Any context accompanying the quote"""
-
-
-def parse_message(content: str) -> Optional[ParsedMessage]:
-    return None
-    # return ParsedMessage()
+        await message.clear_reactions()
+        await message.add_reaction("❌" if parsed_message is None else "✅")
+        print(parsed_message)
 
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
