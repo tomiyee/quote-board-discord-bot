@@ -5,7 +5,7 @@ from sqlalchemy import UUID
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm.decl_api import _TypeAnnotationMapType
 
-SpeakerID = NewType("SpeakerID", uuid.UUID)
+SpeakerID = NewType("SpeakerID", int)
 QuoteID = NewType("QuoteID", uuid.UUID)
 
 CUSTOM_UUID_TYPES = [SpeakerID, QuoteID]

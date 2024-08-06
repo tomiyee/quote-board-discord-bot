@@ -9,11 +9,16 @@ from quote_bot.models import Base, QuoteID, SpeakerID
 class Quote(Base):
     __tablename__ = "quote"
 
-    id: Mapped[QuoteID] = mapped_column(primary_key=True)
-    """The ID of the quote entry"""
+    quote_id: Mapped[QuoteID] = mapped_column(primary_key=True)
+    """The bot-assigned ID for this quote entry"""
+    message_id: Mapped[int]
+    """The Discord-assigned ID of the message the quote came from"""
+    guild_id: Mapped[int]
+    """The Discord-assigned ID of the message"""
+
+    speaker_id: Mapped[SpeakerID] = mapped_column(ForeignKey("speaker.id"))
+    """The speaker of the quote (not the author of the message)"""
     content: Mapped[str]
     """The content of the quote"""
     context: Mapped[Optional[str]]
     """The context of the quote, if one is provided"""
-
-    speaker_id: Mapped[SpeakerID] = mapped_column(ForeignKey("speaker.id"))

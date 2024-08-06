@@ -8,7 +8,7 @@ from quote_bot.discord_components.client import client
 # from sqlalchemy import text
 
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 # with engine.connect() as conn:

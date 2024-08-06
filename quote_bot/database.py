@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from quote_bot.models.create_tables import sync_create_tables
 
 env_path = find_dotenv()
-load_dotenv(env_path, override=True)
+load_dotenv(override=True)
 
 
 # Decide between using the Production or Development Database
