@@ -20,7 +20,6 @@ Quote Board Discord Bot is a Discord bot for collecting, storing, and displaying
 - PostgreSQL database for persistent storage
 - Easy-to-use command scripts
 - Style checking and auto-formatting
-- Pre-commit hooks for code quality
 
 ## Setup Instructions
 
@@ -37,18 +36,7 @@ Follow these steps to set up your development environment:
      pyenv global 3.10.0
      ```
 
-2. **Install Pre-Commit Hooks**
-
-   - Pre-commit helps maintain code quality by running checks before each commit.
-   - Install and activate:
-     ```bash
-     pip install pre-commit
-     pre-commit install
-     # To run checks manually:
-     pre-commit run --all-files
-     ```
-
-3. **Install Poetry**
+2. **Install Poetry**
 
    - Poetry manages dependencies and scripts.
    - Install via official installer:
@@ -58,19 +46,19 @@ Follow these steps to set up your development environment:
      poetry --version
      ```
 
-4. **Install Project Dependencies**
+3. **Install Project Dependencies**
 
    - Run in the project root:
      ```bash
      poetry install
      ```
 
-5. **Install Docker**
+4. **Install Docker**
 
    - Docker is required for running the PostgreSQL database locally.
    - [Docker Installation Guide](https://docs.docker.com/get-docker/)
 
-6. **Configure Environment Variables**
+5. **Configure Environment Variables**
    - If needed, create a `.env` file in the project root for secrets (e.g., Discord bot token, database URL).
    - Example:
      ```env
@@ -186,18 +174,10 @@ poetry run style
 ## Contributing
 
 1. Fork and clone the repository.
-2. Install dependencies and pre-commit hooks as described above.
+2. Install dependencies as described above.
 3. Create a new branch for your feature or fix.
-4. Make your changes and commit (pre-commit will run automatically).
+4. Make your changes and commit.
 5. Push your branch and open a pull request.
-
-### Pre-Commit Usage
-
-- Pre-commit will check code style, linting, and other quality checks before each commit.
-- To run all checks manually:
-  ```bash
-  pre-commit run --all-files
-  ```
 
 ## Troubleshooting & FAQ
 
@@ -220,7 +200,6 @@ A: Run `poetry run style` to auto-fix, or `poetry run style --check` to only che
 
 - [Discord.py Quickstart](https://discordpy.readthedocs.io/en/stable/quickstart.html)
 - [Poetry Documentation](https://python-poetry.org/docs/)
-- [Pre-commit Documentation](https://pre-commit.com/#install)
 
 ## Development
 
