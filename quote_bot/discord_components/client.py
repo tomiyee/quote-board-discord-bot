@@ -1,30 +1,49 @@
-from typing import Any
+import os
 
 import discord
+from discord import app_commands
 from discord.ext import commands
-
-from quote_bot.parser import Parser
+from dotenv import load_dotenv
 
 intents = discord.Intents.default()
 intents.message_content = True
-client = commands.Bot(command_prefix="/", intents=intents)
+client = commands.Bot(command_prefix="!", intents=intents)
+
+load_dotenv()
+
+GUILD_ID = os.getenv("TESTING_GUILD_ID")
 
 
 @client.event
 async def on_ready() -> None:
+    if GUILD_ID:
+        guild = discord.Object(id=int(GUILD_ID))
+        await client.tree.sync(guild=guild)
+        print(f"✅ Synced commands to guild {GUILD_ID}")
+    else:
+        await client.tree.sync()
+        print("🌍 Synced commands globally (may take up to 1 hour)")
     print(f"We have logged in as {client.user}")
 
 
-@client.command()
-async def parse(ctx: commands.Context[Any]) -> None:
-    """Parses the messages in the channel (and eventually save to a DB)
+class QuoteModal(discord.ui.Modal, title="Add Quote"):
+    text = discord.ui.TextInput(
+        label="Quote", style=discord.TextStyle.paragraph, required=True
+    )
+    speaker = discord.ui.TextInput(label="Speaker", required=True)
+    context = discord.ui.TextInput(label="Context", required=False)
 
-    Adds a reaction to indicate if parsing is successful.
-    """
-    await ctx.message.delete()
-    async for message in ctx.channel.history(limit=200):
-        parsed_message = Parser.parse(message.content)
-        # Use Reactions to indicate successfully parsing the quote
-        await message.clear_reactions()
-        await message.add_reaction("❌" if parsed_message is None else "✅")
-        print(parsed_message)
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.send_message(
+            f'✅ Quote stored:\n"{self.text}" — {self.speaker}'
+            + (f" ({self.context})" if self.context.value else ""),
+            ephemeral=True,
+        )
+
+
+@app_commands.command(name="add_quote", description="Add a quote via form")
+async def add_quote(interaction: discord.Interaction):
+    await interaction.response.send_modal(QuoteModal())
+
+
+client.tree.add_command(add_quote)
