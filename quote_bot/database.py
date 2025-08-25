@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 
 load_dotenv()
 
@@ -31,3 +32,5 @@ engine = create_engine(
     "postgresql://{user}:{pwd}@{url}:5432/{db_name}".format(**config)
 )
 engine.connect()
+
+Base = declarative_base()
