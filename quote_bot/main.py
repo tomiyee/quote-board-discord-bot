@@ -2,9 +2,16 @@ import os
 
 from dotenv import load_dotenv
 
+from quote_bot.database import Base, engine
 from quote_bot.discord_components.client import client
 
+# Import all models here to ensure they are registered with SQLAlchemy
+import models  # noqa: F401
+
 load_dotenv()
+
+# Initialize the database tables
+Base.metadata.create_all(engine)
 
 GUILD_ID = os.getenv("TESTING_GUILD_ID")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
