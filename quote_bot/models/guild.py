@@ -6,7 +6,7 @@ from quote_bot.database import Base
 class Guild(Base):
     """Stores all information specific to an individual Guild"""
 
-    __tablename__ = "guilds"
+    __tablename__ = "guild"
 
     id = Column(Integer, primary_key=True)
     """Guild ID"""
