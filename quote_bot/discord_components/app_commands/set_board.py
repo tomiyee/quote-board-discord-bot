@@ -1,9 +1,15 @@
 import discord
 from discord import app_commands
+from sqlalchemy.orm import Session
 
-@app_commands.command(name="set_board", description="Set the current text channel as the quote board")
+from quote_bot.database import engine
+
+
+@app_commands.command(
+    name="set_board", description="Set the current text channel as the quote board"
+)
 async def set_board(interaction: discord.Interaction) -> None:
-  
-  with Session(engine) as session:
-    session.commit()
-    pass
+
+    with Session(engine) as session:
+        session.commit()
+        pass
