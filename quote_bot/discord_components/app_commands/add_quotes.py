@@ -60,4 +60,9 @@ class ExchangeModal(discord.ui.Modal, title="Add Quotes"):
 
 @app_commands.command(name="add_quotes", description="Add multiple quotes via form")
 async def add_quotes(interaction: discord.Interaction) -> None:
+    """
+    Presents a modal dialog to the user to input multiple quotes and optional context.
+    The user must confirm the quotes before they are accepted. They can edit them if the
+    message was not parsed correctly or they want to make corrections
+    """
     await interaction.response.send_modal(ExchangeModal())
