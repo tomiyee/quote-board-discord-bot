@@ -3,9 +3,6 @@ from typing import Any
 
 import discord
 from discord import Interaction
-from discord.ext import commands
-
-from quote_bot.discord_components.client import client
 
 
 class Person(Enum):
@@ -56,14 +53,3 @@ class Buttons(discord.ui.View):
             content="Correct!" if self.answer == Person.ANDREA else "Incorrect!",
             view=self,
         )
-
-
-@client.command()
-async def guess(ctx: commands.Context[Any]) -> None:
-    quote = "So I split the big ol titty in half"
-    await ctx.send(
-        f"Who said this quote! \n\n> {quote}\n",
-        view=Buttons(
-            answer=Person.ANDREA,
-        ),
-    )
