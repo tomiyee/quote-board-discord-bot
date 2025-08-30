@@ -1,49 +1,42 @@
 import os
 
 import discord
-from discord import app_commands
-from discord.ext import commands
 from dotenv import load_dotenv
+
+from quote_bot.discord_components.app_commands.add_quote import add_quote
 
 intents = discord.Intents.default()
 intents.message_content = True
-client = commands.Bot(command_prefix="!", intents=intents)
-
 load_dotenv()
 
 GUILD_ID = os.getenv("TESTING_GUILD_ID")
 
 
-@client.event
-async def on_ready() -> None:
-    if GUILD_ID:
-        guild = discord.Object(id=int(GUILD_ID))
-        await client.tree.sync(guild=guild)
-        print(f"✅ Synced commands to guild {GUILD_ID}")
-    else:
-        await client.tree.sync()
-        print("🌍 Synced commands globally (may take up to 1 hour)")
-    print(f"We have logged in as {client.user}")
+class QuoteBoardClient(discord.Client):
+    def __init__(self) -> None:
+        super().__init__(intents=discord.Intents.default())
+        self.tree = discord.app_commands.CommandTree(self)
+
+    async def setup_hook(self) -> None:
+
+        # Register all the commands on startup
+        self.tree.add_command(add_quote)
+
+        print("All registered commands:")
+        print("\t", list(map(lambda command: command.name, self.tree.get_commands())))
+
+        if GUILD_ID:
+            guild = discord.Object(id=GUILD_ID)
+            await client.tree.sync(guild=guild)
+            print(f"✅ Synced commands to guild {guild.id}")
+        print(list(map(lambda command: command.name, self.tree.get_commands())))
+        await self.tree.sync()
+        print(f"We have logged in as {self.user}")
 
 
-class QuoteModal(discord.ui.Modal, title="Add Quote"):
-    text = discord.ui.TextInput(
-        label="Quote", style=discord.TextStyle.paragraph, required=True
-    )
-    speaker = discord.ui.TextInput(label="Speaker", required=True)
-    context = discord.ui.TextInput(label="Context", required=False)
-
-    async def on_submit(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            f'✅ Quote stored:\n"{self.text}" — {self.speaker}'
-            + (f" ({self.context})" if self.context.value else ""),
-            ephemeral=True,
-        )
+client = QuoteBoardClient()
 
 
-@app_commands.command(name="add_quote", description="Add a quote via form")
-async def add_quote(interaction: discord.Interaction):
-    await interaction.response.send_modal(QuoteModal())
-
-
-client.tree.add_command(add_quote)
+@client.tree.command(name="ping", description="...")
+async def ping(interaction: discord.Interaction) -> None:
+    await interaction.response.send_message("pong")
