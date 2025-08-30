@@ -10,7 +10,8 @@ from quote_bot.discord_components.client import client
 load_dotenv()
 
 # Initialize the database tables
-Base.metadata.create_all(engine)
+# Base.metadata.drop_all(bind=engine) # reset all tables
+Base.metadata.create_all(bind=engine)
 
 GUILD_ID = os.getenv("TESTING_GUILD_ID")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
