@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from typing import Optional
+
+from sqlalchemy import BigInteger
+from sqlalchemy.orm import Mapped, mapped_column
 
 from quote_bot.database import Base
 
@@ -6,10 +9,12 @@ from quote_bot.database import Base
 class Guild(Base):
     """Stores all information specific to an individual Guild"""
 
-    __tablename__ = "guilds"
+    __tablename__ = "guild"
 
-    id = Column(Integer, primary_key=True)
-    """Guild ID"""
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    """Guild IDs are 64 bit ints, so we use BigInteger here"""
 
-    quote_board_channel = Column(String)
-    """The channel ID of the quote board channel"""
+    quote_board_channel_id: Mapped[Optional[int]] = mapped_column(
+        BigInteger, nullable=True
+    )
+    """Channel IDs are 64 bit ints. This is the channel where quotes will be posted."""
