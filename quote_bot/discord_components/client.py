@@ -4,6 +4,7 @@ import discord
 from dotenv import load_dotenv
 
 from quote_bot.discord_components.app_commands.add_quote import add_quote
+from quote_bot.discord_components.app_commands.add_quotes import add_quotes
 from quote_bot.discord_components.app_commands.get_board import get_board
 from quote_bot.discord_components.app_commands.reset_board import reset_board
 from quote_bot.discord_components.app_commands.set_board import set_board
@@ -24,6 +25,7 @@ class QuoteBoardClient(discord.Client):
 
         # Register all the commands on startup
         self.tree.add_command(add_quote)
+        self.tree.add_command(add_quotes)
         self.tree.add_command(set_board)
         self.tree.add_command(get_board)
         self.tree.add_command(reset_board)
@@ -35,7 +37,6 @@ class QuoteBoardClient(discord.Client):
             guild = discord.Object(id=GUILD_ID)
             await client.tree.sync(guild=guild)
             print(f"✅ Synced commands to guild {guild.id}")
-        print(list(map(lambda command: command.name, self.tree.get_commands())))
         await self.tree.sync()
         print(f"We have logged in as {self.user}")
 
