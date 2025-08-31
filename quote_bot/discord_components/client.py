@@ -4,6 +4,8 @@ import discord
 from dotenv import load_dotenv
 
 from quote_bot.discord_components.app_commands.add_quote import add_quote
+from quote_bot.discord_components.app_commands.get_board import get_board
+from quote_bot.discord_components.app_commands.reset_board import reset_board
 from quote_bot.discord_components.app_commands.set_board import set_board
 
 intents = discord.Intents.default()
@@ -23,6 +25,8 @@ class QuoteBoardClient(discord.Client):
         # Register all the commands on startup
         self.tree.add_command(add_quote)
         self.tree.add_command(set_board)
+        self.tree.add_command(get_board)
+        self.tree.add_command(reset_board)
 
         print("All registered commands:")
         print("\t", list(map(lambda command: command.name, self.tree.get_commands())))
