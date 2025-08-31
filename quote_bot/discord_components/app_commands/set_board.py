@@ -7,7 +7,7 @@ from quote_bot.models.guild import Guild
 
 
 @app_commands.command(
-    name="set_board", description="Set the current text channel as the quote board"
+    name="set", description="Set the current text channel as the quote board"
 )
 async def set_board(interaction: discord.Interaction) -> None:
 

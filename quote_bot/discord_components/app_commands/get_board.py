@@ -6,9 +6,8 @@ from quote_bot.database import engine
 from quote_bot.models.guild import Guild
 
 
-@app_commands.command(name="get_board", description="Get the current board")
+@app_commands.command(name="get", description="Get the current board")
 async def get_board(interaction: discord.Interaction) -> None:
-
     guild_id = interaction.guild.id if interaction.guild else None
 
     if not guild_id:

@@ -6,7 +6,7 @@ from quote_bot.database import engine
 from quote_bot.models.guild import Guild
 
 
-@app_commands.command(name="reset_board", description="Delete the quote board setting")
+@app_commands.command(name="reset", description="Delete the quote board setting")
 async def reset_board(interaction: discord.Interaction) -> None:
 
     guild_id = interaction.guild.id if interaction.guild else None
