@@ -1,5 +1,7 @@
+from datetime import datetime, timezone
 from typing import TYPE_CHECKING, List, Optional
 
+from sqlalchemy import DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from quote_bot.database import Base
@@ -19,6 +21,11 @@ class Exchange(Base):
 
     context: Mapped[Optional[str]]
     """The context or topic of the exchange"""
+
+    date: Mapped[Optional[datetime]] = mapped_column(
+        DateTime, default=datetime.now(timezone.utc)
+    )
+    """The date and time when the exchange was created"""
 
     statements: Mapped[List["Statement"]] = relationship(
         back_populates="exchange", cascade="all, delete-orphan"

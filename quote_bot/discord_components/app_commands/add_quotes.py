@@ -1,5 +1,5 @@
 import re
-from datetime import date
+from datetime import date, datetime, timezone
 from typing import Any
 
 import discord
@@ -7,14 +7,21 @@ from discord import app_commands
 from sqlalchemy.orm import Session
 
 from quote_bot.database import engine
+from quote_bot.models.exchange import Exchange
 from quote_bot.models.guild import Guild
+from quote_bot.models.statement import Statement
 
 
 class ConfirmView(discord.ui.View):
-    def __init__(self, exchange: str, context: str | None):
+    def __init__(self, exchange: str, context: str | None, date_str: str = ""):
         super().__init__(timeout=None)  # or set a timeout in seconds
         self.exchange = exchange
         self.context = context
+        self.datetime = (
+            datetime.strptime(date_str, "%Y-%m-%d")
+            if date_str
+            else datetime.now(timezone.utc)
+        )
 
     @discord.ui.button(label="Accept", style=discord.ButtonStyle.success)
     async def accept(
@@ -40,9 +47,25 @@ class ConfirmView(discord.ui.View):
             return
 
         quote_board = interaction.guild.get_channel(guild.quote_board_channel_id)
-
         if isinstance(quote_board, discord.TextChannel):
             await quote_board.send(f"{formatted_exchange}\nContext: {context}")
+
+            with Session(engine) as session:
+                # Create Exchange
+                exchange = Exchange(context=self.context, date=self.datetime)
+                session.add(exchange)
+                session.flush()  # Get exchange.id
+
+                # Save each statement
+                for idx, (quote, speaker) in enumerate(parsed_exchange, start=1):
+                    statement = Statement(
+                        speaker=speaker,
+                        statement=quote,
+                        line_number=idx,
+                        exchange_id=exchange.id,
+                    )
+                    session.add(statement)
+                session.commit()
 
     @discord.ui.button(label="Edit", style=discord.ButtonStyle.secondary)
     async def edit(
@@ -92,7 +115,7 @@ class ExchangeModal(discord.ui.Modal, title="Add Quotes"):
         context = f"||{self.context.value}||" if self.context.value else "_No context_"
         await interaction.response.send_message(
             f"Quote Preview:\n\n{formatted_exchange}\nContext: {context}\n",
-            view=ConfirmView(self.exchange.value, self.context.value),
+            view=ConfirmView(self.exchange.value, self.context.value, self.date.value),
             ephemeral=True,
         )
 
