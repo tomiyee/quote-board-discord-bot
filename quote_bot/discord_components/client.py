@@ -37,7 +37,6 @@ class QuoteBoardClient(discord.Client):
             guild = discord.Object(id=GUILD_ID)
             await client.tree.sync(guild=guild)
             print(f"✅ Synced commands to guild {guild.id}")
-        print(list(map(lambda command: command.name, self.tree.get_commands())))
         await self.tree.sync()
         print(f"We have logged in as {self.user}")
 
